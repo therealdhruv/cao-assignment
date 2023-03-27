@@ -21,31 +21,34 @@ public:
 
   // Constructor
   SequentialMultiplier(int multiplicand, int multiplier) {
-    this->multiplicand = multiplicand;
-    this->multiplier = multiplier;
+    this -> multiplicand = multiplicand;
+    this -> multiplier = multiplier;
   }
 
   // Multiply two numbers
   int multiply() {
     // Initialize partial products
     for (int i = 0; i < 10; i++) {
-      partialProducts[i] = 0;
+        partialProducts[i] = 0;
     }
 
     // Iterate over the bits of the multiplicand
     for (int j = 9; j >= 0; j--) {
-      // Multiply the bit of the multiplicand by the bit of the multiplier
-      for (int k = 0; k < 10; k++) {
-        partialProducts[k] += (multiplicand & (1 << j)) * (multiplier & (1 << k));
-      }
+        // Multiply the bit of the multiplicand by the bit of the multiplier
+        for (int k = 0; k < 10; k++) {
+            partialProducts[k] += ((multiplicand >> j) & 1) * ((multiplier >> k) & 1);
+        }
+    }
 
-      // Add the partial products
-      sumOfPartialProducts += partialProducts[j];
+    // Add the partial products
+    for (int i = 0; i < 10; i++) {
+        sumOfPartialProducts += partialProducts[i] << i;
     }
 
     // Return the sum of partial products
     return sumOfPartialProducts;
   }
+  
 };
 
 int main() {
